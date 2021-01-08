@@ -1,0 +1,713 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Upcoming Movies Section -->
+<div class="card-section trending-movies-today-section">
+    <div class="card-section-title trending-movies-today-title">
+        <p>
+            <span class="title-sign text-info">| </span>
+            <span class="row-title">Upcoming Movies</span>
+            <span class="explore-all"><a href="{{ url_for('showAllUpcomingMovies')}}" onclick="loading();" style="color:white">Explore All ></a></span>
+        </p>
+    </div>
+    <div class="upcoming-movies-card-section">
+        <div class="card-row">
+            {% for item in range(0,12) %}
+            <!-- Card -->
+            <div class="shadow single-card img-hover-zoom" data-toggle="modal"
+                data-target="#upcoming-movies-modal{{item}}">
+                <img src="{{ movieQuery.upcomingMovies[item][4] }}" alt="">
+                <div class="card-overlay-content">
+                    <div class="card-content-type">
+                        <p>Movie</p>
+                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="card-title-under">
+                        <h5 class="under-title">{{ movieQuery.upcomingMovies[item][2] }}</h5>
+                    </div>
+                    <div class="card-release-date-under">
+                        <p>
+                            <span class="under-release-date">{{ movieQuery.upcomingMovies[item][5] }} ∙ </span>{{ movieQuery.upcomingMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="upcoming-movies-modal{{item}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modalLabel">{{ movieQuery.upcomingMovies[item][2] }} Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-card-title">{{ movieQuery.upcomingMovies[item][2] }} <span class="release-date">({{ movieQuery.upcomingMovies[item][5] }})</span></h1>
+                            <div class="shadow single-card modal-card">
+                                <img src="{{ movieQuery.upcomingMovies[item][4] }}" alt="">
+                            </div>
+                            <p class="modal-description">{{ movieQuery.upcomingMovies[item][3] }}</p>
+                            <div class="modal-genres">
+                                <p class="modal-genres-list">
+                                    <span class="text-header">Genre</span>
+                                    {% for i in movieQuery.upcomingMovies[item][7] %}
+                                    {{ i }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="modal-rating">
+                                <p class="modal-rating-list">
+                                    <span class="text-header">Rating </span> {{ movieQuery.upcomingMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                </p>
+                            </div>
+                            <div class="modal-content-type">
+                                <p class="modal-content-type-list">
+                                    <span class="text-header">Type </span> Movie
+                                </p>
+                            </div>
+                            <div class="modal-trailer">
+                                {% if movieQuery.upcomingMovies[item][8] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ movieQuery.upcomingMovies[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% else %}
+                                <h5 class="text-header">Trailer not available.</h5>
+                                {% endif %}
+                            </div>
+                            <div class="modal-watch-providers">
+                                {% if movieQuery.upcomingMovies[item][9][0] != "N/A" and movieQuery.upcomingMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.upcomingMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                <a href="{{ movieQuery.upcomingMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% elif movieQuery.upcomingMovies[item][9][0] != "N/A" and movieQuery.upcomingMovies[item][9][1] == "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.upcomingMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif movieQuery.upcomingMovies[item][9][0] == "N/A" and movieQuery.upcomingMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.upcomingMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% else %}
+                                <h5 class="text-header">No streaming services available in your region</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trailer Video Modal -->
+    <div class="modal fade" id="trailer-video-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Now Playing Movies Section -->
+<div class="card-section now-playing-movies-section">
+    <div class="card-section-title now-playing-movies-title">
+        <p>
+            <span class="title-sign text-info">| </span>
+            <span class="row-title">Now Playing Movies</span>
+            <span class="explore-all"><a href="{{ url_for('showAllNowPlayingMovies')}}" onclick="loading();" style="color:white">Explore All ></a></span>
+        </p>
+    </div>
+    <div class="now-playing-movies-card-section">
+        <div class="card-row">
+            {% for item in range(0,12) %}
+            <!-- Card -->
+            <div class="shadow single-card img-hover-zoom" data-toggle="modal"
+                data-target="#now-playing-movies-modal{{item}}">
+                <img src="{{ movieQuery.nowPlayingMovies[item][4] }}" alt="">
+                <div class="card-overlay-content">
+                    <div class="card-content-type">
+                        <p>Movie</p>
+                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="card-title-under">
+                        <h5 class="under-title">{{ movieQuery.nowPlayingMovies[item][2] }}</h5>
+                    </div>
+                    <div class="card-release-date-under">
+                        <p>
+                            <span class="under-release-date">{{ movieQuery.nowPlayingMovies[item][5] }} ∙ </span>{{ movieQuery.nowPlayingMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="now-playing-movies-modal{{item}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modalLabel">{{ movieQuery.nowPlayingMovies[item][2] }} Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-card-title">{{ movieQuery.nowPlayingMovies[item][2] }} <span class="release-date">({{ movieQuery.nowPlayingMovies[item][5] }})</span></h1>
+                            <div class="shadow single-card modal-card">
+                                <img src="{{ movieQuery.nowPlayingMovies[item][4] }}" alt="">
+                            </div>
+                            <p class="modal-description">{{ movieQuery.nowPlayingMovies[item][3] }}</p>
+                            <div class="modal-genres">
+                                <p class="modal-genres-list">
+                                    <span class="text-header">Genre</span>
+                                    {% for i in movieQuery.nowPlayingMovies[item][7] %}
+                                    {{ i }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="modal-rating">
+                                <p class="modal-rating-list">
+                                    <span class="text-header">Rating </span> {{ movieQuery.nowPlayingMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                </p>
+                            </div>
+                            <div class="modal-content-type">
+                                <p class="modal-content-type-list">
+                                    <span class="text-header">Type </span> Movie
+                                </p>
+                            </div>
+                            <div class="modal-trailer">
+                                {% if movieQuery.nowPlayingMovies[item][8] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ movieQuery.nowPlayingMovies[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% else %}
+                                <h5 class="text-header">Trailer not available.</h5>
+                                {% endif %}
+                            </div>
+                            <div class="modal-watch-providers">
+                                {% if movieQuery.nowPlayingMovies[item][9][0] != "N/A" and movieQuery.nowPlayingMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.nowPlayingMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                <a href="{{ movieQuery.nowPlayingMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% elif movieQuery.nowPlayingMovies[item][9][0] != "N/A" and movieQuery.nowPlayingMovies[item][9][1] == "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.nowPlayingMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif movieQuery.nowPlayingMovies[item][9][0] == "N/A" and movieQuery.nowPlayingMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.nowPlayingMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% else %}
+                                <h5 class="text-header">No streaming services available in your region</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trailer Video Modal -->
+    <div class="modal fade" id="trailer-video-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trending Movies Today Section -->
+<div class="card-section trending-movies-today-section">
+    <div class="card-section-title trending-movies-today-title">
+        <p>
+            <span class="title-sign text-info">| </span>
+            <span class="row-title">Movies Trending Today</span>
+            <span class="explore-all"><a href="{{ url_for('showAllTrendingMoviesToday')}}" onclick="loading();" style="color:white">Explore All ></a></span>
+        </p>
+    </div>
+    <div class="trending-movies-today-card-section">
+        <div class="card-row">
+            {% for item in range(0,12) %}
+            <!-- Card -->
+            <div class="shadow single-card img-hover-zoom" data-toggle="modal"
+                data-target="#trending-movies-today-modal{{item}}">
+                <img src="{{ movieQuery.trendingTodayMovies[item][4] }}" alt="">
+                <div class="card-overlay-content">
+                    <div class="card-content-type">
+                        <p>{{ movieQuery.trendingTodayMovies[item][1] }}</p>
+                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="card-title-under">
+                        <h5 class="under-title">{{ movieQuery.trendingTodayMovies[item][2] }}</h5>
+                    </div>
+                    <div class="card-release-date-under">
+                        <p>
+                            <span class="under-release-date">{{ movieQuery.trendingTodayMovies[item][5] }} ∙ </span>{{ movieQuery.trendingTodayMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="trending-movies-today-modal{{item}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modalLabel">{{ movieQuery.trendingTodayMovies[item][2] }} Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-card-title">{{ movieQuery.trendingTodayMovies[item][2] }} <span class="release-date">({{ movieQuery.trendingTodayMovies[item][5] }})</span></h1>
+                            <div class="shadow single-card modal-card">
+                                <img src="{{ movieQuery.trendingTodayMovies[item][4] }}" alt="">
+                            </div>
+                            <p class="modal-description">{{ movieQuery.trendingTodayMovies[item][3] }}</p>
+                            <div class="modal-genres">
+                                <p class="modal-genres-list">
+                                    <span class="text-header">Genre</span>
+                                    {% for i in movieQuery.trendingTodayMovies[item][7] %}
+                                    {{ i }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="modal-rating">
+                                <p class="modal-rating-list">
+                                    <span class="text-header">Rating </span> {{ movieQuery.trendingTodayMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                </p>
+                            </div>
+                            <div class="modal-content-type">
+                                <p class="modal-content-type-list">
+                                    <span class="text-header">Type </span> {{ movieQuery.trendingTodayMovies[item][1] }}
+                                </p>
+                            </div>
+                            <div class="modal-trailer">
+                                {% if movieQuery.trendingTodayMovies[item][8] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ movieQuery.trendingTodayMovies[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% else %}
+                                <h5 class="text-header">Trailer not available.</h5>
+                                {% endif %}
+                            </div>
+                            <div class="modal-watch-providers">
+                                {% if movieQuery.trendingTodayMovies[item][9][0] != "N/A" and movieQuery.trendingTodayMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.trendingTodayMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                <a href="{{ movieQuery.trendingTodayMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% elif movieQuery.trendingTodayMovies[item][9][0] != "N/A" and movieQuery.trendingTodayMovies[item][9][1] == "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.trendingTodayMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif movieQuery.trendingTodayMovies[item][9][0] == "N/A" and movieQuery.trendingTodayMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.trendingTodayMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% else %}
+                                <h5 class="text-header">No streaming services available in your region</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trailer Video Modal -->
+    <div class="modal fade" id="trailer-video-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trending Movies Weekly Section -->
+<div class="card-section trending-movies-weekly-section">
+    <div class="card-section-title trending-movies-weekly-title">
+        <p>
+            <span class="title-sign text-info">| </span>
+            <span class="row-title">Movies Trending This Week</span>
+            <span class="explore-all"><a href="{{ url_for('showAllTrendingMoviesWeekly')}}" onclick="loading();" style="color:white">Explore All ></a></span>
+        </p>
+    </div>
+    <div class="trending-movies-weekly-card-section">
+        <div class="card-row">
+            {% for item in range(0,12) %}
+            <!-- Card -->
+            <div class="shadow single-card img-hover-zoom" data-toggle="modal"
+                data-target="#trending-movies-weekly-modal{{item}}">
+                <img src="{{ movieQuery.trendingWeeklyMovies[item][4] }}" alt="">
+                <div class="card-overlay-content">
+                    <div class="card-content-type">
+                        <p>{{ movieQuery.trendingWeeklyMovies[item][1] }}</p>
+                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="card-title-under">
+                        <h5 class="under-title">{{ movieQuery.trendingWeeklyMovies[item][2] }}</h5>
+                    </div>
+                    <div class="card-release-date-under">
+                        <p>
+                            <span class="under-release-date">{{ movieQuery.trendingWeeklyMovies[item][5] }} ∙ </span>{{ movieQuery.trendingWeeklyMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="trending-movies-weekly-modal{{item}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modalLabel">{{ movieQuery.trendingWeeklyMovies[item][2] }} Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-card-title">{{ movieQuery.trendingWeeklyMovies[item][2] }} <span class="release-date">({{ movieQuery.trendingWeeklyMovies[item][5] }})</span></h1>
+                            <div class="shadow single-card modal-card">
+                                <img src="{{ movieQuery.trendingWeeklyMovies[item][4] }}" alt="">
+                            </div>
+                            <p class="modal-description">{{ movieQuery.trendingWeeklyMovies[item][3] }}</p>
+                            <div class="modal-genres">
+                                <p class="modal-genres-list">
+                                    <span class="text-header">Genre</span>
+                                    {% for i in movieQuery.trendingWeeklyMovies[item][7] %}
+                                    {{ i }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="modal-rating">
+                                <p class="modal-rating-list">
+                                    <span class="text-header">Rating </span> {{ movieQuery.trendingWeeklyMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                </p>
+                            </div>
+                            <div class="modal-content-type">
+                                <p class="modal-content-type-list">
+                                    <span class="text-header">Type </span> {{ movieQuery.trendingWeeklyMovies[item][1] }}
+                                </p>
+                            </div>
+                            <div class="modal-trailer">
+                                {% if movieQuery.trendingWeeklyMovies[item][8] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ movieQuery.trendingWeeklyMovies[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% else %}
+                                <h5 class="text-header">Trailer not available.</h5>
+                                {% endif %}
+                            </div>
+                            <div class="modal-watch-providers">
+                                {% if movieQuery.trendingWeeklyMovies[item][9][0] != "N/A" and movieQuery.trendingWeeklyMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.trendingWeeklyMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                <a href="{{ movieQuery.trendingWeeklyMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% elif movieQuery.trendingWeeklyMovies[item][9][0] != "N/A" and movieQuery.trendingWeeklyMovies[item][9][1] == "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.trendingWeeklyMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif movieQuery.trendingWeeklyMovies[item][9][0] == "N/A" and movieQuery.trendingWeeklyMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.trendingWeeklyMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% else %}
+                                <h5 class="text-header">No streaming services available in your region</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trailer Video Modal -->
+    <div class="modal fade" id="trailer-video-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popular Movies Section -->
+<div class="card-section popular-movies-section">
+    <div class="card-section-title popular-movies-title">
+        <p>
+            <span class="title-sign text-info">| </span>
+            <span class="row-title">Popular Movies</span>
+            <span class="explore-all"><a href="{{ url_for('showAllPopularMovies')}}" onclick="loading();" style="color:white">Explore All ></a></span>
+        </p>
+    </div>
+    <div class="popular-movies-card-section">
+        <div class="card-row">
+            {% for item in range(0,12) %}
+            <!-- Card -->
+            <div class="shadow single-card img-hover-zoom" data-toggle="modal"
+                data-target="#popular-movies-modal{{item}}">
+                <img src="{{ movieQuery.popularMovies[item][4] }}" alt="">
+                <div class="card-overlay-content">
+                    <div class="card-content-type">
+                        <p>{{ movieQuery.popularMovies[item][1] }}</p>
+                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="card-title-under">
+                        <h5 class="under-title">{{ movieQuery.popularMovies[item][2] }}</h5>
+                    </div>
+                    <div class="card-release-date-under">
+                        <p>
+                            <span class="under-release-date">{{ movieQuery.popularMovies[item][5] }} ∙ </span>{{ movieQuery.popularMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="popular-movies-modal{{item}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modalLabel">{{ movieQuery.popularMovies[item][2] }} Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-card-title">{{ movieQuery.popularMovies[item][2] }} <span class="release-date">({{ movieQuery.popularMovies[item][5] }})</span></h1>
+                            <div class="shadow single-card modal-card">
+                                <img src="{{ movieQuery.popularMovies[item][4] }}" alt="">
+                            </div>
+                            <p class="modal-description">{{ movieQuery.popularMovies[item][3] }}</p>
+                            <div class="modal-genres">
+                                <p class="modal-genres-list">
+                                    <span class="text-header">Genre</span>
+                                    {% for i in movieQuery.popularMovies[item][7] %}
+                                    {{ i }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="modal-rating">
+                                <p class="modal-rating-list">
+                                    <span class="text-header">Rating </span> {{ movieQuery.popularMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                </p>
+                            </div>
+                            <div class="modal-content-type">
+                                <p class="modal-content-type-list">
+                                    <span class="text-header">Type </span> {{ movieQuery.popularMovies[item][1] }}
+                                </p>
+                            </div>
+                            <div class="modal-trailer">
+                                {% if movieQuery.popularMovies[item][8] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ movieQuery.popularMovies[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% else %}
+                                <h5 class="text-header">Trailer not available.</h5>
+                                {% endif %}
+                            </div>
+                            <div class="modal-watch-providers">
+                                {% if movieQuery.popularMovies[item][9][0] != "N/A" and movieQuery.popularMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.popularMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                <a href="{{ movieQuery.popularMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% elif movieQuery.popularMovies[item][9][0] != "N/A" and movieQuery.popularMovies[item][9][1] == "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.popularMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif movieQuery.popularMovies[item][9][0] == "N/A" and movieQuery.popularMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.popularMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% else %}
+                                <h5 class="text-header">No streaming services available in your region</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trailer Video Modal -->
+    <div class="modal fade" id="trailer-video-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Top Rated Movies Section -->
+<div class="card-section top-rated-movies-section">
+    <div class="card-section-title top-rated-movies-title">
+        <p>
+            <span class="title-sign text-info">| </span>
+            <span class="row-title">Top Rated Movies</span>
+            <span class="explore-all"><a href="{{ url_for('showAllTopRatedMovies')}}" onclick="loading();" style="color:white">Explore All ></a></span>
+        </p>
+    </div>
+    <div class="top-rated-movies-card-section">
+        <div class="card-row">
+            {% for item in range(0,12) %}
+            <!-- Card -->
+            <div class="shadow single-card img-hover-zoom" data-toggle="modal"
+                data-target="#top-rated-movies-modal{{item}}">
+                <img src="{{ movieQuery.topRatedMovies[item][4] }}" alt="">
+                <div class="card-overlay-content">
+                    <div class="card-content-type">
+                        <p>{{ movieQuery.topRatedMovies[item][1] }}</p>
+                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="card-title-under">
+                        <h5 class="under-title">{{ movieQuery.topRatedMovies[item][2] }}</h5>
+                    </div>
+                    <div class="card-release-date-under">
+                        <p>
+                            <span class="under-release-date">{{ movieQuery.topRatedMovies[item][5] }} ∙ </span>{{ movieQuery.topRatedMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="top-rated-movies-modal{{item}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modalLabel">{{ movieQuery.topRatedMovies[item][2] }} Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-card-title">{{ movieQuery.topRatedMovies[item][2] }} <span class="release-date">({{ movieQuery.topRatedMovies[item][5] }})</span></h1>
+                            <div class="shadow single-card modal-card">
+                                <img src="{{ movieQuery.topRatedMovies[item][4] }}" alt="">
+                            </div>
+                            <p class="modal-description">{{ movieQuery.topRatedMovies[item][3] }}</p>
+                            <div class="modal-genres">
+                                <p class="modal-genres-list">
+                                    <span class="text-header">Genre</span>
+                                    {% for i in movieQuery.topRatedMovies[item][7] %}
+                                    {{ i }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="modal-rating">
+                                <p class="modal-rating-list">
+                                    <span class="text-header">Rating </span> {{ movieQuery.topRatedMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                </p>
+                            </div>
+                            <div class="modal-content-type">
+                                <p class="modal-content-type-list">
+                                    <span class="text-header">Type </span> {{ movieQuery.topRatedMovies[item][1] }}
+                                </p>
+                            </div>
+                            <div class="modal-trailer">
+                                {% if movieQuery.topRatedMovies[item][8] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ movieQuery.topRatedMovies[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% else %}
+                                <h5 class="text-header">Trailer not available.</h5>
+                                {% endif %}
+                            </div>
+                            <div class="modal-watch-providers">
+                                {% if movieQuery.topRatedMovies[item][9][0] != "N/A" and movieQuery.topRatedMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.topRatedMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                <a href="{{ movieQuery.topRatedMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% elif movieQuery.topRatedMovies[item][9][0] != "N/A" and movieQuery.topRatedMovies[item][9][1] == "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.topRatedMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif movieQuery.topRatedMovies[item][9][0] == "N/A" and movieQuery.topRatedMovies[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ movieQuery.topRatedMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% else %}
+                                <h5 class="text-header">No streaming services available in your region</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trailer Video Modal -->
+    <div class="modal fade" id="trailer-video-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

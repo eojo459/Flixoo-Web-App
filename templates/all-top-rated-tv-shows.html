@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Top Rated TV Shows Section -->
+<div class="card-section top-rated-tv-section">
+    <div class="card-section-title top-rated-tv-title">
+        <p>
+            <span class="title-sign text-info">| </span>
+            <span class="row-title">Top Rated TV Shows</span>
+        </p>
+    </div>
+    <div class="top-rated-tv-card-section">
+        <div class="card-row">
+            {% for item in range(0,80) %}
+            <!-- Card -->
+            <div class="shadow single-card img-hover-zoom" data-toggle="modal"
+                data-target="#top-rated-tv-modal{{item}}">
+                <img src="{{ tvQuery.topRatedTV[item][4] }}" alt="">
+                <div class="card-overlay-content">
+                    <div class="card-content-type">
+                        <p>Series</p>
+                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="card-title-under">
+                        <h5 class="under-title">{{ tvQuery.topRatedTV[item][2] }}</h5>
+                    </div>
+                    <div class="card-release-date-under">
+                        <p>
+                            <span class="under-release-date">{{ tvQuery.topRatedTV[item][5] }} ∙ </span>{{ tvQuery.topRatedTV[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="top-rated-tv-modal{{item}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modalLabel">{{ tvQuery.topRatedTV[item][2] }} Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-card-title">{{ tvQuery.topRatedTV[item][2] }} <span class="release-date">({{ tvQuery.topRatedTV[item][5] }})</span></h1>
+                            <div class="shadow single-card modal-card">
+                                <img src="{{ tvQuery.topRatedTV[item][4] }}" alt="">
+                            </div>
+                            <p class="modal-description">{{ tvQuery.topRatedTV[item][3] }}</p>
+                            <div class="modal-genres">
+                                <p class="modal-genres-list">
+                                    <span class="text-header">Genre</span>
+                                    {% for i in tvQuery.topRatedTV[item][7] %}
+                                    {{ i }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="modal-rating">
+                                <p class="modal-rating-list">
+                                    <span class="text-header">Rating </span> {{ tvQuery.topRatedTV[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                </p>
+                            </div>
+                            <div class="modal-content-type">
+                                <p class="modal-content-type-list">
+                                    <span class="text-header">Type </span> Series
+                                </p>
+                            </div>
+                            <div class="modal-trailer">
+                                {% if tvQuery.topRatedTV[item][8] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ tvQuery.topRatedTV[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% else %}
+                                <h5 class="text-header">Trailer not available.</h5>
+                                {% endif %}
+                            </div>
+                            <div class="modal-watch-providers">
+                                {% if tvQuery.topRatedTV[item][9][0] != "N/A" and tvQuery.topRatedTV[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ tvQuery.topRatedTV[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                <a href="{{ tvQuery.topRatedTV[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% elif tvQuery.topRatedTV[item][9][0] != "N/A" and tvQuery.topRatedTV[item][9][1] == "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ tvQuery.topRatedTV[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif tvQuery.topRatedTV[item][9][0] == "N/A" and tvQuery.topRatedTV[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ tvQuery.topRatedTV[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% else %}
+                                <h5 class="text-header">No streaming services available in your region</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trailer Video Modal -->
+    <div class="modal fade" id="trailer-video-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

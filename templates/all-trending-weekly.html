@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Trending Movies & TV Shows Weekly Section -->
+<div class="card-section trending-weekly-section">
+    <div class="card-section-title trending-weekly-title">
+        <p>
+            <span class="title-sign text-info">| </span>
+            <span class="row-title">Top Movies & TV Shows Trending This Week</span>
+        </p>
+    </div>
+    <div class="trending-weekly-card-section">
+        <div class="card-row">
+            {% for item in range(0,80) %}
+            <!-- Card -->
+            <div class="shadow single-card img-hover-zoom" data-toggle="modal"
+                data-target="#trending-weekly-modal{{item}}">
+                <img src="{{ homeQuery.trendingWeekly[item][4] }}" alt="">
+                <div class="card-overlay-content">
+                    <div class="card-content-type">
+                        <p>{{ homeQuery.trendingWeekly[item][1] }}</p>
+                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="card-title-under">
+                        <h5 class="under-title">{{ homeQuery.trendingWeekly[item][2] }}</h5>
+                    </div>
+                    <div class="card-release-date-under">
+                        <p>
+                            <span class="under-release-date">{{ homeQuery.trendingWeekly[item][5] }} ∙ </span>{{ homeQuery.trendingWeekly[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="trending-weekly-modal{{item}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modalLabel">{{ homeQuery.trendingWeekly[item][2] }} Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="modal-card-title">{{ homeQuery.trendingWeekly[item][2] }} <span class="release-date">({{ homeQuery.trendingWeekly[item][5] }})</span></h1>
+                            <div class="shadow single-card modal-card">
+                                <img src="{{ homeQuery.trendingWeekly[item][4] }}" alt="">
+                            </div>
+                            <p class="modal-description">{{ homeQuery.trendingWeekly[item][3] }}</p>
+                            <div class="modal-genres">
+                                <p class="modal-genres-list">
+                                    <span class="text-header">Genre</span>
+                                    {% for i in homeQuery.trendingWeekly[item][7] %}
+                                    {{ i }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="modal-rating">
+                                <p class="modal-rating-list">
+                                    <span class="text-header">Rating </span> {{ homeQuery.trendingWeekly[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                </p>
+                            </div>
+                            <div class="modal-content-type">
+                                <p class="modal-content-type-list">
+                                    <span class="text-header">Type </span> {{ homeQuery.trendingWeekly[item][1] }}
+                                </p>
+                            </div>
+                            <div class="modal-trailer">
+                                {% if homeQuery.trendingWeekly[item][8] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ homeQuery.trendingWeekly[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% else %}
+                                <h5 class="text-header">Trailer not available.</h5>
+                                {% endif %}
+                            </div>
+                            <div class="modal-watch-providers">
+                                {% if homeQuery.trendingWeekly[item][9][0] != "N/A" and homeQuery.trendingWeekly[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ homeQuery.trendingWeekly[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                <a href="{{ homeQuery.trendingWeekly[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% elif homeQuery.trendingWeekly[item][9][0] != "N/A" and homeQuery.trendingWeekly[item][9][1] == "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ homeQuery.trendingWeekly[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif homeQuery.trendingWeekly[item][9][0] == "N/A" and homeQuery.trendingWeekly[item][9][1] != "N/A" %}
+                                <h5 class="text-header">Stream it on</h5>
+                                <a href="{{ homeQuery.trendingWeekly[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                {% else %}
+                                <h5 class="text-header">No streaming services available in your region</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trailer Video Modal -->
+    <div class="modal fade" id="trailer-video-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
