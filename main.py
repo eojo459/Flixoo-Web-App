@@ -17,7 +17,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 app = Flask(__name__)
 
 ### GET DATA FOR THE WEBSITE ###
-# Takes ~5 minutes
+# Takes ~ 5 minutes
 
 homeQuery = homePageQueryLinks()
 homeQuery.showAllHomePage()
