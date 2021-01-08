@@ -3,7 +3,7 @@
 ##  Description:    Main file for the Flixoo Flask Website Application
 ##  Author:         Emmanuel Ojo
 ##  Date:           December 17 2020
-##  Last Updated:   January 3 2021
+##  Last Updated:   January 7 2021
 ######################################################   
 
 from flask import Flask, render_template, request
@@ -11,6 +11,7 @@ import requests
 from api_key import *
 from home_page_queries import *
 from movies_queries import *
+from search_queries import *
 from posters import *
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -25,6 +26,7 @@ movieQuery = moviePageQueries()
 movieQuery.showAllMoviePage()
 tvQuery = tvPageQueries()
 tvQuery.showAllTVPage()
+searchQuery = searchQueryLinks()
 
 print("################################################################")
 print("## ALL DATA HAS BEEN LOADED - REFRESH COMPLETE ##")
@@ -106,6 +108,18 @@ def showAllPopularTV():
 @app.route("/all-top-rated-tv-shows")
 def showAllTopRatedTV():
     return render_template("all-top-rated-tv-shows.html", tvQuery=tvQuery)
+
+## SEARCH BAR ##
+@app.route("/search", methods = ['GET','POST'])
+def searchData():
+    if request.method == "POST":
+        searchResults = request.form.get("searchSubmit")
+        searchQuery.showAllSearchResults(searchResults)
+    else:
+        searchResults = ""
+        searchQuery.showAllSearchResults(searchResults)
+    return render_template("search-results.html", searchQuery=searchQuery, searchResults=searchResults)
+    
 
 """
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 ##  Description:    Functions that extract the required data from the TMDB API
 ##  Author:         Emmanuel Ojo
 ##  Date:           December 17 2020
-##  Last Updated:   January 3 2021
+##  Last Updated:   January 7 2021
 ######################################################
 
 import requests
@@ -172,10 +172,12 @@ class queryFunctionTools:
         checkPath = json.dumps(requestGET)
 
         if "id" in checkPath:
-            if requestGET['results'][index]['id'] is not None:
-                return requestGET['results'][index]['id']
-            else:
+            try:
+                if requestGET['results'][index]['id'] is not None:
+                    return requestGET['results'][index]['id']
+            except:
                 return "N/A"
+                
         else:
             return "N/A"
 
@@ -194,9 +196,10 @@ class queryFunctionTools:
         checkPath = json.dumps(requestGET)
 
         if 'media_type' in checkPath:
-            if requestGET['results'][index]['media_type'] is not None:
-                return requestGET['results'][index]['media_type']
-            else:
+            try:
+                if requestGET['results'][index]['media_type'] is not None:
+                    return requestGET['results'][index]['media_type']
+            except:
                 return "N/A"
         else:
             return "N/A"
@@ -266,9 +269,15 @@ class queryFunctionTools:
 
         # check if the following key exist
         if 'overview' in checkPath:
-            if requestGET['results'][index]['overview'] is not None:
-                return requestGET['results'][index]['overview']
-            else:
+            try:
+                if requestGET['results'][index]['overview'] is not None:
+                    if requestGET['results'][index]['overview'] != "":
+                        return requestGET['results'][index]['overview']
+                    else:
+                        return "No description available."
+                else:
+                    return "No description available."
+            except:
                 return "No description available."
 
         # else key doesn't exist, give default description
@@ -292,13 +301,20 @@ class queryFunctionTools:
 
         # check if the following key exists
         if 'poster_path' in checkPath:
-            if requestGET['results'][index]['poster_path'] is not None:
-                posterURL = requestGET['results'][index]['poster_path']
-                imageURL = "https://image.tmdb.org/t/p/w500"
-                finalURL = imageURL + posterURL
-                return finalURL
-            else: 
+            try:
+                if requestGET['results'][index]['poster_path'] is not None:
+                    if requestGET['results'][index]['poster_path'] != "null":
+                        posterURL = requestGET['results'][index]['poster_path']
+                        imageURL = "https://image.tmdb.org/t/p/w500"
+                        finalURL = imageURL + posterURL
+                        return finalURL
+                    else:
+                        return "/static/images/image_not_available.png"
+                else:
+                    return "/static/images/image_not_available.png"
+            except:
                 return "/static/images/image_not_available.png"
+                
 
         # else key doesn't exist, show default poster image
         else:
@@ -325,16 +341,26 @@ class queryFunctionTools:
             if requestGET['results'][index] is not None:
                 try:
                     if requestGET['results'][index]['release_date'] is not None:
-                        releaseDate = requestGET['results'][index]['release_date']
-                        return (releaseDate[0:4])           # only save the 4 digit release date year
+                        if requestGET['results'][index]['release_date'] != "":
+                            releaseDate = requestGET['results'][index]['release_date']
+                            return (releaseDate[0:4])           # only save the 4 digit release date year
+                        else:
+                            return "N/A"
                     else:
                         return "N/A"
                 except:
-                    if requestGET['results'][index]['first_air_date'] is not None:
-                        releaseDate = requestGET['results'][index]['first_air_date']
-                        return (releaseDate[0:4])
-                    else:
+                    try:
+                        if requestGET['results'][index]['first_air_date'] is not None:
+                            if requestGET['results'][index]['first_air_date'] != "":
+                                releaseDate = requestGET['results'][index]['first_air_date']
+                                return (releaseDate[0:4])
+                            else:
+                                return "N/A"
+                        else:
+                            return "N/A"
+                    except:
                         return "N/A"
+                        
             
             # else key doesn't exist, give default 
             else:
@@ -356,17 +382,20 @@ class queryFunctionTools:
 
         # check if the following key exist
         if 'vote_average' in checkPath:
-            if requestGET['results'][index] is not None:
-                if requestGET['results'][index]['vote_average'] is not None:
-                    if requestGET['results'][index]['vote_average'] == 0:
-                        return "TBD"
+            try:
+                if requestGET['results'][index] is not None:
+                    if requestGET['results'][index]['vote_average'] is not None:
+                        if requestGET['results'][index]['vote_average'] == 0:
+                            return "TBD"
+                        else:
+                            return requestGET['results'][index]['vote_average']
                     else:
-                        return requestGET['results'][index]['vote_average']
+                        return "TBD"
                 else:
                     return "TBD"
-            else:
+            except:
                 return "TBD"
-
+            
         # else key doesn't exist, give default rating
         else:
             return "TBD"
@@ -387,16 +416,20 @@ class queryFunctionTools:
         # check if the following key exist
         if 'genre_ids' in checkPath:
             #print("genres")
-            if requestGET['results'][index]['genre_ids'] is not None:
-                return requestGET['results'][index]['genre_ids']
-            else:
-                genreArrayID.append("N/A")
-                return
+            try:
+                if requestGET['results'][index]['genre_ids'] is not None:
+                    if requestGET['results'][index]['genre_ids'] != " ":
+                        return requestGET['results'][index]['genre_ids']
+                    else: 
+                        return "N/A"
+                else:
+                    return "N/A"
+            except:
+                return "N/A"
 
         # else key doesn't exist, give default genre
         else:
-            genreArrayID.append("N/A")
-            return
+            return "N/A"
 
 
     ########################################
@@ -471,7 +504,6 @@ class queryFunctionTools:
 
         return genreNameArray
 
-
     ########################################
     # Title: showAll (Main Function)
     #
@@ -498,7 +530,14 @@ class queryFunctionTools:
             content = linkArray[2]
             window = linkArray[3]
             apiKey = linkArray[4]
-
+        elif linkArray[1] == "/search":
+            # search queries
+            linkType = "search"
+            popularity = linkArray[1]
+            searchType = linkArray[2]
+            apiKey = linkArray[3]
+            queryStr = linkArray[4]
+            searchQuery = linkArray[5]
         else:
             # movies & tv shows api link
             linkType = "other"
@@ -514,17 +553,25 @@ class queryFunctionTools:
         # use the trending link
         if linkType == "trending":
             finalUrl = httpUrl + popularity + content + window + apiKey + currentPage
-
+        elif linkType == "search":
+            finalUrl = httpUrl + popularity + searchType + apiKey + queryStr + searchQuery
         # else use any other link
         else:
             finalUrl = httpUrl + content + popularity + apiKey
 
+        print(finalUrl)
+
         requestGET = requests.get(finalUrl).json()
+
+        # only get the total amount of results per page
+        count = 0
+        for item in requestGET['results']:
+            count += 1
 
         # get all the posters and titles for the category
         for pageNumber in range(pageNum, totalPages + 1):
             #print("********** PAGE " + str(pageNumber) + " **********")
-            for pageIndex in range (0, 19):
+            for pageIndex in range (0, count):
 
                 # get id
                 contentID = self.getID(requestGET, pageIndex)
@@ -558,8 +605,12 @@ class queryFunctionTools:
                 # get genres
                 tempGenreIDArray = []
                 tempGenreIDArray = self.getGenreIDs(requestGET, pageIndex)
-                genres = []
-                genres = self.convertGenreKeys(tempGenreIDArray)
+
+                if str(tempGenreIDArray) != "N/A":
+                    genres = []
+                    genres = self.convertGenreKeys(tempGenreIDArray)
+                else:
+                    genres = "N/A"
                 
                 # get trailer
                 trailer = self.findTrailer(contentType, contentID)
@@ -612,12 +663,18 @@ class queryFunctionTools:
             # update the link with the new page
             if linkType == "trending":
                 finalUrl = httpUrl + popularity + content + window + apiKey + currentPage
+            elif linkType == "search":
+                finalUrl = httpUrl + popularity + searchType + apiKey + queryStr + searchQuery + currentPage
             else:
                 finalUrl = httpUrl + content + popularity + apiKey + currentPage
 
             requestGET = requests.get(finalUrl).json()
 
-            # print next 20 titles
+            # only get the total amount of results per page
+            count = 0
+            for item in requestGET['results']:
+                count += 1
+
             # repeat until page = totalPages
 
         #print("===== ALL DATA LOADED =====")
