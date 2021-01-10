@@ -19,14 +19,23 @@
     <script src="{{ url_for('static', filename='js/fade-in-scroll.js') }}"></script>
     <!--<script src="{{ url_for('static', filename='js/preload-script.js') }}"></script>-->
 
+    <!-- Icons for FF, Chrome, Opera -->
+    <link rel="icon" type="image/png" href="/static/assets/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/static/assets/favicons/favicon-32x32.png" sizes="32x32">
+
+    <!-- Icons for IE -->
+    <link rel="icon" type="image/x-icon" href="/static/assets/favicons/favicon.ico" >
+    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/favicons/favicon.ico"/>
+
+
     <title>Flixoo - Discover New Movies & TV Shows</title>
 </head>
 <body>
     <div class="preload"></div>
     <div class="whole-page animated animatedFadeInUp fadeInUp">
         <!-- Nav bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark py-4">
-            <a class="navbar-brand" href="{{ url_for('home') }}" onclick="loading();">Flixoo</a>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
+            <a class="navbar-brand navbar-logo" href="{{ url_for('home') }}" onclick="loading();"><img src="/static/assets/flixoo-logo.png" class="d-inline-block align-top"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -47,9 +56,9 @@
                         <a class="nav-link" href="#">Discover</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0" action="{{ url_for('searchData') }}" method="POST">
+                <form class="form-inline my-2 my-lg-0 search-bar" action="{{ url_for('searchData') }}" method="POST">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="searchSubmit">
-                    <button class="btn btn-info my-2 my-sm-0" type="submit" onclick="loading();">Search</button>
+                    <button class="btn btn-info my-2 my-sm-0 search-button" type="submit" onclick="loading();">Search</button>
                 </form>
             </div>
         </nav>

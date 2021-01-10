@@ -1,7 +1,22 @@
 
 .navbar {
     /*background-color: #000000;*/
-    background: rgba(31, 31, 31, 0.1);
+    /*background: rgba(31, 31, 31, 0.1);*/
+    background: #121212;
+    background: -webkit-radial-gradient(center, #121212, #000000) !important;
+    background: -moz-radial-gradient(center, #121212, #000000) !important;
+    background: radial-gradient(ellipse at center, #121212, #000000) !important;
+}
+
+.navbar-logo img {
+    height: 50px;
+    width: 100px;
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+.nav-item {
+    margin-right: 20px;
 }
 
 .card-section {

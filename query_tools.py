@@ -559,8 +559,6 @@ class queryFunctionTools:
         else:
             finalUrl = httpUrl + content + popularity + apiKey
 
-        print(finalUrl)
-
         requestGET = requests.get(finalUrl).json()
 
         # only get the total amount of results per page
