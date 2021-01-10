@@ -3,7 +3,7 @@
 ##  Description:    Main file for the Flixoo Flask Website Application
 ##  Author:         Emmanuel Ojo
 ##  Date:           December 17 2020
-##  Last Updated:   January 9 2021
+##  Last Updated:   January 10 2021
 ######################################################   
 
 from flask import Flask, render_template, request
@@ -27,10 +27,11 @@ tvQuery = tvPageQueries()
 tvQuery.showAllTVPage()
 searchQuery = searchQueryLinks()
 
+"""
 print("################################################################")
 print("## ALL DATA HAS BEEN LOADED - REFRESH COMPLETE ##")
 print("################################################################")
-
+"""
 
 def loadData():
     print("** RETRIEVING NEW DATA **")
@@ -40,6 +41,11 @@ def loadData():
     homeQuery.showAllHomePage()
     movieQuery.showAllMoviePage()
     tvQuery.showAllTVPage()
+
+# create the scheduler to get new data every 3 hours / 180 minutes in the background
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(loadData, 'interval', minutes=180)
+scheduler.start()
 
 ### HOME PAGE ###
 @app.route("/", methods = ['GET'])
@@ -131,9 +137,5 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     print("App is running")
-    # create the scheduler to get new data every 3 hours / 180 minutes in the background
-    scheduler = BackgroundScheduler(daemon=True)
-    scheduler.add_job(loadData, 'interval', minutes=180)
-    scheduler.start()
-    app.run(host='0.0.0.0')
-    #app.run(host='127.0.0.1')
+    #app.run(host='0.0.0.0')
+    app.run(host='127.0.0.1')

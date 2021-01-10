@@ -25,7 +25,6 @@
 #sticky-footer {
     background: #121212 !important;
     bottom: 0;
-    position: absolute;
 }
 
 .footer-text {
