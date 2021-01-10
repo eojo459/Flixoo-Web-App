@@ -12,7 +12,6 @@ from api_key import *
 from home_page_queries import *
 from movies_queries import *
 from search_queries import *
-from posters import *
 from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
@@ -24,8 +23,8 @@ homeQuery = homePageQueryLinks()
 homeQuery.showAllHomePage()
 #movieQuery = moviePageQueries()
 #movieQuery.showAllMoviePage()
-#tvQuery = tvPageQueries()
-#tvQuery.showAllTVPage()
+tvQuery = tvPageQueries()
+tvQuery.showAllTVPage()
 searchQuery = searchQueryLinks()
 
 print("################################################################")
@@ -47,8 +46,8 @@ def loadData():
 @app.route("/home", methods = ['GET'])
 def home():
     print("home page loading")
-    return render_template("home.html", homeQuery=homeQuery, movieQuery=movieQuery, tvQuery=tvQuery)
-    #return render_template("home.html", homeQuery=homeQuery, tvQuery=tvQuery)
+    #return render_template("home.html", homeQuery=homeQuery, movieQuery=movieQuery, tvQuery=tvQuery)
+    return render_template("home.html", homeQuery=homeQuery, tvQuery=tvQuery)
 
 @app.route("/all-trending-today")
 def showAllTrendingToday():

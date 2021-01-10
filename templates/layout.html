@@ -14,7 +14,6 @@
     <script src="{{ url_for('static', filename='js/loading-animation.js') }}"></script>
     <script src="{{ url_for('static', filename='js/trailer-video-popup.js') }}"></script>
 
-
     <!--<script src="{{ url_for('static', filename='js/module-scroller.js') }}"></script>-->
     <script src="{{ url_for('static', filename='js/fade-in-scroll.js') }}"></script>
     <!--<script src="{{ url_for('static', filename='js/preload-script.js') }}"></script>-->
@@ -31,38 +30,37 @@
     <title>Flixoo - Discover New Movies & TV Shows</title>
 </head>
 <body>
-    <div class="preload"></div>
-    <div class="whole-page animated animatedFadeInUp fadeInUp">
         <!-- Nav bar -->
         <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
-            <a class="navbar-brand navbar-logo" href="{{ url_for('home') }}" onclick="loading();"><img src="/static/assets/flixoo-logo.png" class="d-inline-block align-top"></a>
+            <a class="navbar-brand navbar-logo" href="{{ url_for('home') }}" onclick="loading();"><img
+                    src="/static/assets/flixoo-logo.png" class="d-inline-block align-top"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ url_for('home') }}" onclick="loading();">Home <span
-                                class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if active_page == 'home' else '' }}" href="{{ url_for('home') }}" onclick="loading();">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('movies') }}" onclick="loading();">Movies</a>
+                        <a class="nav-link {{ 'active' if active_page == 'movies' else '' }}" href="{{ url_for('movies') }}" onclick="loading();">Movies</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('tvShows') }}" onclick="loading();">TV Shows</a>
+                        <a class="nav-link {{ 'active' if active_page == 'tv' else '' }}" href="{{ url_for('tvShows') }}" onclick="loading();">TV Shows</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Discover</a>
+                        <a class="nav-link disabled" href="#">Discover</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0 search-bar" action="{{ url_for('searchData') }}" method="POST">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="searchSubmit">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+                        name="searchSubmit">
                     <button class="btn btn-info my-2 my-sm-0 search-button" type="submit" onclick="loading();">Search</button>
                 </form>
             </div>
         </nav>
-    
+        
         <!-- Website Content -->
         <div class="container-fluid">
             <div id="loading"></div>
@@ -70,7 +68,6 @@
                 {% block content %}{% endblock %}
             </div>
         </div>
-    </div>
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

@@ -19,6 +19,10 @@
     margin-right: 20px;
 }
 
+.navbar-dark .navbar-nav .active > .nav-link {
+    color: white !important;
+}
+
 .card-section {
     width: 99%;
     height: 100%;
@@ -286,7 +290,8 @@ div#loading {
     width: 100%;
     height: 100%;
     display: none;
-    background: url(/static/pulse-loader1.gif) no-repeat;
+    /*background: url(/static/pulse-loader1.gif) no-repeat;*/
+    background: url(/static/circle-loader1.svg) no-repeat;
     cursor: wait;
 }
 

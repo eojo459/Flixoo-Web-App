@@ -76,7 +76,7 @@ class queryFunctionTools:
                                 trailer = item['key']
                                 youtubeHTTP = "https://www.youtube.com/embed/"
                                 return youtubeHTTP + trailer
-
+        
         return "Trailer not available"
 
 
