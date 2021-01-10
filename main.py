@@ -3,7 +3,7 @@
 ##  Description:    Main file for the Flixoo Flask Website Application
 ##  Author:         Emmanuel Ojo
 ##  Date:           December 17 2020
-##  Last Updated:   January 7 2021
+##  Last Updated:   January 9 2021
 ######################################################   
 
 from flask import Flask, render_template, request
@@ -17,12 +17,12 @@ from apscheduler.schedulers.background import BackgroundScheduler
 app = Flask(__name__)
 
 ### GET DATA FOR THE WEBSITE ###
-# Takes ~ 5 minutes
+# Takes ~ 5 minutes - 10 minutes
 
 homeQuery = homePageQueryLinks()
 homeQuery.showAllHomePage()
-#movieQuery = moviePageQueries()
-#movieQuery.showAllMoviePage()
+movieQuery = moviePageQueries()
+movieQuery.showAllMoviePage()
 tvQuery = tvPageQueries()
 tvQuery.showAllTVPage()
 searchQuery = searchQueryLinks()
@@ -46,8 +46,8 @@ def loadData():
 @app.route("/home", methods = ['GET'])
 def home():
     print("home page loading")
-    #return render_template("home.html", homeQuery=homeQuery, movieQuery=movieQuery, tvQuery=tvQuery)
-    return render_template("home.html", homeQuery=homeQuery, tvQuery=tvQuery)
+    return render_template("home.html", homeQuery=homeQuery, movieQuery=movieQuery, tvQuery=tvQuery)
+    #return render_template("home.html", homeQuery=homeQuery, tvQuery=tvQuery)
 
 @app.route("/all-trending-today")
 def showAllTrendingToday():
@@ -131,9 +131,9 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     print("App is running")
-    # create the scheduler to get new data every 12 hours / 720 minutes in the background
+    # create the scheduler to get new data every 3 hours / 180 minutes in the background
     scheduler = BackgroundScheduler(daemon=True)
-    scheduler.add_job(loadData, 'interval', minutes=720)
+    scheduler.add_job(loadData, 'interval', minutes=180)
     scheduler.start()
-    #app.run(host='0.0.0.0')
-    app.run(host='127.0.0.1')
+    app.run(host='0.0.0.0')
+    #app.run(host='127.0.0.1')
