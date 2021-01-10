@@ -39,6 +39,16 @@ class queryFunctionTools:
             return contentID, contentTypeFormatted
     
 
+    ########################################
+    # Title: findTrailer
+    #
+    # Description: Checks the database for any YouTube trailers available
+    #              Checks for any ['type'] == YouTube key values
+    #
+    # Details:
+    #       - Only returns the youtube video id's
+    #
+    #########
     def findTrailer(self, contentType, contentID):
         
         if str(contentID) == "No ID available":
