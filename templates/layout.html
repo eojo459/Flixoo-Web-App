@@ -68,23 +68,26 @@
         </div>
     </nav>
 
+    <!-- Loading Screen -->
+    <div id="loading"></div>
+
     <!-- Website Content -->
-    <div class="container-fluid">
-        <div id="loading"></div>
-        <a name="top"></a>
-        <div id="content">
+    <div id="content">
+        <div class="container-fluid">
             {% block content %}{% endblock %}
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
-        <div class="container text-center footer-text">
-            <small>Copyright &copy; 2021 Flixoo</small>
-            <a href="https://www.themoviedb.org/"><img src="/static/assets/tmdb-attribution.svg" class="tmdb-attribution-logo"></a>
-            <small>This product uses the TMDb API but is not endorsed or certified by TMDb.</small>
-        </div>
-    </footer>
+        <!-- Footer -->
+        <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+            <div class="container text-center footer-text">
+                <small>Copyright &copy; 2021 Flixoo</small>
+                <a href="https://www.themoviedb.org/"><img src="/static/assets/tmdb-attribution.svg"
+                        class="tmdb-attribution-logo"></a>
+                <small>This product uses the TMDb API but is not endorsed or certified by TMDb.</small>
+            </div>
+        </footer>
+
+    </div>
 
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
