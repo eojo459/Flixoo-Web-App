@@ -4,7 +4,7 @@
 
 <!-- Trending TV Shows Today Section -->
 <div class="card-section trending-tv-today-section">
-    <div class="card-section-title trending-tv-today-title">
+    <div class="card-section-title trending-tv-today-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">TV Shows Trending Today</span>
@@ -16,7 +16,7 @@
             {% for item in range(0,12) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#trending-tv-today-modal{{item}}">
+                data-target="#trending-tv-today-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ tvQuery.trendingTodayTV[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">
@@ -122,7 +122,7 @@
 
 <!-- Trending TV Shows Weekly Section -->
 <div class="card-section trending-tv-weekly-section">
-    <div class="card-section-title trending-tv-weekly-title">
+    <div class="card-section-title trending-tv-weekly-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">TV Shows Trending This Week</span>
@@ -134,7 +134,7 @@
             {% for item in range(0,12) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#trending-tv-weekly-modal{{item}}">
+                data-target="#trending-tv-weekly-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ tvQuery.trendingWeeklyTV[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">
@@ -240,7 +240,7 @@
 
 <!-- Popular TV Shows Section -->
 <div class="card-section popular-tv-section">
-    <div class="card-section-title popular-tv-title">
+    <div class="card-section-title popular-tv-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">Popular TV Shows</span>
@@ -252,7 +252,7 @@
             {% for item in range(0,12) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#popular-tv-modal{{item}}">
+                data-target="#popular-tv-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ tvQuery.popularTV[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">
@@ -358,7 +358,7 @@
 
 <!-- Top Rated TV Shows Section -->
 <div class="card-section top-rated-tv-section">
-    <div class="card-section-title top-rated-tv-title">
+    <div class="card-section-title top-rated-tv-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">Top Rated TV Shows</span>
@@ -370,7 +370,7 @@
             {% for item in range(0,12) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#top-rated-tv-modal{{item}}">
+                data-target="#top-rated-tv-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ tvQuery.topRatedTV[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">

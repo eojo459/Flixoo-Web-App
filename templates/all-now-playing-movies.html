@@ -3,7 +3,7 @@
 
 <!-- Now Playing Movies Section -->
 <div class="card-section now-playing-movies-section">
-    <div class="card-section-title now-playing-movies-title">
+    <div class="card-section-title now-playing-movies-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">Now Playing Movies</span>
@@ -14,7 +14,7 @@
             {% for item in range(0,80) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#now-playing-movies-modal{{item}}">
+                data-target="#now-playing-movies-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ movieQuery.nowPlayingMovies[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">

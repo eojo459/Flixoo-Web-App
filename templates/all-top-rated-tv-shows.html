@@ -3,7 +3,7 @@
 
 <!-- Top Rated TV Shows Section -->
 <div class="card-section top-rated-tv-section">
-    <div class="card-section-title top-rated-tv-title">
+    <div class="card-section-title top-rated-tv-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">Top Rated TV Shows</span>
@@ -14,7 +14,7 @@
             {% for item in range(0,80) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#top-rated-tv-modal{{item}}">
+                data-target="#top-rated-tv-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ tvQuery.topRatedTV[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">

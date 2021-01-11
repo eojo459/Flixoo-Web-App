@@ -3,7 +3,7 @@
 
 <!-- Trending TV Shows Today Section -->
 <div class="card-section trending-tv-today-section">
-    <div class="card-section-title trending-tv-today-title">
+    <div class="card-section-title trending-tv-today-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">TV Shows Trending Today</span>
@@ -14,7 +14,7 @@
             {% for item in range(0,80) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#trending-tv-today-modal{{item}}">
+                data-target="#trending-tv-today-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ tvQuery.trendingTodayTV[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">

@@ -6,7 +6,7 @@
 {% if searchQuery.searchCount() >= 1 %}
 
 <div class="card-section search-results-section">
-    <div class="card-section-title search-results-title">
+    <div class="card-section-title search-results-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">Search Results For "{{ searchResults }}"</span>
@@ -17,7 +17,7 @@
             {% for item in range(0, searchQuery.searchCount()) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#search-results-modal{{item}}">
+                data-target="#search-results-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ searchQuery.searchResults[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">

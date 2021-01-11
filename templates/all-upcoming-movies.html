@@ -3,7 +3,7 @@
 
 <!-- Upcoming Movies Section -->
 <div class="card-section trending-movies-today-section">
-    <div class="card-section-title trending-movies-today-title">
+    <div class="card-section-title trending-movies-today-title" data-aos="slide-up">
         <p>
             <span class="title-sign text-info">| </span>
             <span class="row-title">Upcoming Movies</span>
@@ -14,7 +14,7 @@
             {% for item in range(0,80) %}
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
-                data-target="#upcoming-movies-modal{{item}}">
+                data-target="#upcoming-movies-modal{{item}}" data-aos="zoom-in">
                 <img src="{{ movieQuery.upcomingMovies[item][4] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">
