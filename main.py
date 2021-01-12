@@ -17,7 +17,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 app = Flask(__name__)
 
 ### GET DATA FOR THE WEBSITE ###
-# Takes ~ 5 minutes - 10 minutes
+# Takes ~ 5 - 10 minutes
 
 homeQuery = homePageQueryLinks()
 homeQuery.showAllHomePage()
@@ -35,9 +35,6 @@ print("################################################################")
 
 def loadData():
     print("** RETRIEVING NEW DATA **")
-    homeQuery = homePageQueryLinks()
-    movieQuery = moviePageQueries()
-    tvQuery = tvPageQueries()
     homeQuery.showAllHomePage()
     movieQuery.showAllMoviePage()
     tvQuery.showAllTVPage()
