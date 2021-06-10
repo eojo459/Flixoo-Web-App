@@ -22,4 +22,4 @@ Users can use the website to:
 * [TMDb API](https://www.themoviedb.org)
 * and Love :heart:
 
-Visit the website [Here](https://www.flixoo.cf)
+Visit the website [Here](https://flixoo.cf)
