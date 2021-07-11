@@ -1,20 +1,23 @@
 ######################################################
-##  File:           main.py
+##  File:           flixoo_start.py
 ##  Description:    Main file for the Flixoo Flask Website Application
 ##  Author:         Emmanuel Ojo
 ##  Date:           December 17 2020
-##  Last Updated:   July 10 2021
+##  Last Updated:   July 11 2021
 ######################################################   
 
 import time
 from flask import Flask, render_template, request
 from api_key import *
-from home_page_queries import *
-from movies_queries import *
-from search_queries import *
+from data_queries.home_page_queries import *
+from data_queries.movies_queries import *
+from data_queries.tv_queries import *
+from data_queries.search_queries import *
+from sql_service.sql_service_start import *
 from apscheduler.schedulers.background import BackgroundScheduler
 
 ## July 10 2021 UPDATE: Updated code so that it now functions properly with the sql database (search still uses old query method)
+## July 11 2021 UPDATE: Included sql service script within project & refactored code and added folders/directories
 
 app = Flask(__name__)
 
@@ -42,7 +45,13 @@ def queryDB():
 # scheduler to query database every 60 minutes (1 hour)
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(queryDB, 'interval', minutes=60)
+print("Added database query to scheduled jobs")
 scheduler.start()
+
+# scheduler to update the sql database every 720 minutes (12 hours)
+sqlDatabase = sqlService()
+scheduler.add_job(sqlDatabase.sqlServiceMain, 'interval', minutes=720)
+print("Added database update to scheduled jobs")
 
 
 ### HOME PAGE ###

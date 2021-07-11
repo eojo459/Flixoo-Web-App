@@ -6,7 +6,7 @@
 ##  Last Updated:   
 ######################################################
 
-from mysql_connection import *
+from .mysql_connection import *
 
 class sqlSelect():
 
@@ -20,6 +20,7 @@ class sqlSelect():
     #       - stores data in a list of dictionaries which are accessed by the html code to display their contents
     #
     #########
+    
     def selectFromTable(self, tableName):
 
         # connect to database

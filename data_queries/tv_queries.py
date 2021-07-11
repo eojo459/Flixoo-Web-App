@@ -6,7 +6,7 @@
 ##  Last Updated:   July 10 2021
 ######################################################
 
-from sql_table_select import *
+from sql_service.sql_table_select import *
 
 ## July 10 2021 UPDATE: pages now query the sql databases instead of using the api query each time
 

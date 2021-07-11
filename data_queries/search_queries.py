@@ -9,7 +9,7 @@
 import requests
 import json
 from api_key import *
-from query_tools import *
+from .query_tools import *
 
 
 class searchQueryLinks():

@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "env/bin/python"
+    "python.pythonPath": "env/bin/python",
+    "python.analysis.extraPaths": [
+        "./sql_service",
+        "./data_queries"
+    ]
 }

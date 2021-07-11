@@ -6,9 +6,9 @@
 ##  Last Updated:   July 10 2021
 ######################################################   
 
-from movies_queries import *
-from tv_queries import *
-from sql_table_select import *
+from .movies_queries import *
+from .tv_queries import *
+from sql_service.sql_table_select import *
 
 ## July 10 2021 UPDATE: pages now query the sql databases instead of using the api query each time
 
