@@ -15,19 +15,19 @@
             <!-- Card -->
             <div class="shadow single-card img-hover-zoom" data-toggle="modal"
                 data-target="#trending-movies-weekly-modal{{item}}" data-aos="zoom-in">
-                <img src="{{ movieQuery.trendingWeeklyMovies[item][4] }}" alt="">
+                <img src="{{ movieQuery.trendingWeeklyMovies[item]['Poster_URL'] }}" alt="">
                 <div class="card-overlay-content">
                     <div class="card-content-type">
-                        <p>{{ movieQuery.trendingWeeklyMovies[item][1] }}</p>
+                        <p>{{ movieQuery.trendingWeeklyMovies[item]['Content_Type'] }}</p>
                     </div>
                 </div>
                 <div class="card-overlay">
                     <div class="card-title-under">
-                        <h5 class="under-title">{{ movieQuery.trendingWeeklyMovies[item][2] }}</h5>
+                        <h5 class="under-title">{{ movieQuery.trendingWeeklyMovies[item]['Title'] }}</h5>
                     </div>
                     <div class="card-release-date-under">
                         <p>
-                            <span class="under-release-date">{{ movieQuery.trendingWeeklyMovies[item][5] }} ∙ </span>{{ movieQuery.trendingWeeklyMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                            <span class="under-release-date">{{ movieQuery.trendingWeeklyMovies[item]['Release_Date'] }} ∙ </span>{{ movieQuery.trendingWeeklyMovies[item]['Rating'] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
                         </p>
                     </div>
                 </div>
@@ -38,53 +38,47 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title modalLabel">{{ movieQuery.trendingWeeklyMovies[item][2] }} Details</h5>
+                            <h5 class="modal-title modalLabel">{{ movieQuery.trendingWeeklyMovies[item]['Title'] }} Details</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <h1 class="modal-card-title">{{ movieQuery.trendingWeeklyMovies[item][2] }} <span class="release-date">({{ movieQuery.trendingWeeklyMovies[item][5] }})</span></h1>
+                            <h1 class="modal-card-title">{{ movieQuery.trendingWeeklyMovies[item]['Title'] }} <span class="release-date">({{ movieQuery.trendingWeeklyMovies[item]['Release_Date'] }})</span></h1>
                             <div class="shadow single-card modal-card">
-                                <img src="{{ movieQuery.trendingWeeklyMovies[item][4] }}" alt="">
+                                <img src="{{ movieQuery.trendingWeeklyMovies[item]['Poster_URL'] }}" alt="">
                             </div>
-                            <p class="modal-description">{{ movieQuery.trendingWeeklyMovies[item][3] }}</p>
+                            <p class="modal-description">{{ movieQuery.trendingWeeklyMovies[item]['Overview'] }}</p>
                             <div class="modal-genres">
                                 <p class="modal-genres-list">
                                     <span class="text-header">Genre</span>
-                                    {% for i in movieQuery.trendingWeeklyMovies[item][7] %}
-                                    {{ i }}
-                                    {% endfor %}
+                                    {{ movieQuery.trendingWeeklyMovies[item]['Genres'] }}
                                 </p>
                             </div>
                             <div class="modal-rating">
                                 <p class="modal-rating-list">
-                                    <span class="text-header">Rating </span> {{ movieQuery.trendingWeeklyMovies[item][6] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
+                                    <span class="text-header">Rating </span> {{ movieQuery.trendingWeeklyMovies[item]['Rating'] }} <span class="rating-star"><img src="/static/images/rating-star-icon.png" alt=""></span>
                                 </p>
                             </div>
                             <div class="modal-content-type">
                                 <p class="modal-content-type-list">
-                                    <span class="text-header">Type </span> {{ movieQuery.trendingWeeklyMovies[item][1] }}
+                                    <span class="text-header">Type </span> {{ movieQuery.trendingWeeklyMovies[item]['Content_Type'] }}
                                 </p>
                             </div>
                             <div class="modal-trailer">
-                                {% if movieQuery.trendingWeeklyMovies[item][8] != "Trailer not available" %}
-                                <h5 class="video-btn" data-toggle="modal" data-src="{{ movieQuery.trendingWeeklyMovies[item][8] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
+                                {% if movieQuery.trendingWeeklyMovies[item]['Trailer'] != "Trailer not available" %}
+                                <h5 class="video-btn" data-toggle="modal" data-src="{{ movieQuery.trendingWeeklyMovies[item]['Trailer'] }}" data-target="#trailer-video-modal"><a class="btn btn-info" href="#"> Watch Trailer</a></h5>
                                 {% else %}
                                 <h5 class="text-header">Trailer not available.</h5>
                                 {% endif %}
                             </div>
                             <div class="modal-watch-providers">
-                                {% if movieQuery.trendingWeeklyMovies[item][9][0] != "N/A" and movieQuery.trendingWeeklyMovies[item][9][1] != "N/A" %}
+                                {% if 'netflix' in movieQuery.trendingWeeklyMovies[item]['Providers'] %}
                                 <h5 class="text-header">Stream it on</h5>
-                                <a href="{{ movieQuery.trendingWeeklyMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
-                                <a href="{{ movieQuery.trendingWeeklyMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
-                                {% elif movieQuery.trendingWeeklyMovies[item][9][0] != "N/A" and movieQuery.trendingWeeklyMovies[item][9][1] == "N/A" %}
+                                <a href="{{ movieQuery.trendingWeeklyMovies[item]['Providers'] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
+                                {% elif 'disney' in movieQuery.trendingWeeklyMovies[item]['Providers'] %}
                                 <h5 class="text-header">Stream it on</h5>
-                                <a href="{{ movieQuery.trendingWeeklyMovies[item][9][0] }}" target="_blank"><img class="provider-logo" src="/static/images/netflix_logo.jpg" alt=""></a>
-                                {% elif movieQuery.trendingWeeklyMovies[item][9][0] == "N/A" and movieQuery.trendingWeeklyMovies[item][9][1] != "N/A" %}
-                                <h5 class="text-header">Stream it on</h5>
-                                <a href="{{ movieQuery.trendingWeeklyMovies[item][9][1] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
+                                <a href="{{ movieQuery.trendingWeeklyMovies[item]['Providers'] }}" target="_blank"><img class="provider-logo" src="/static/images/disney_plus_logo.jpg" alt=""></a>
                                 {% else %}
                                 <h5 class="text-header">No streaming services available in your region</h5>
                                 {% endif %}

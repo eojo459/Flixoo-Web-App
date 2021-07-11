@@ -3,27 +3,19 @@
 ##  Description:    Get all the queries related to the TV page
 ##  Author:         Emmanuel Ojo
 ##  Date:           December 17 2020
-##  Last Updated:   January 2 2021
+##  Last Updated:   July 10 2021
 ######################################################
 
-import requests
-import json
-from api_key import *
-from query_tools import *
+from sql_table_select import *
+
+## July 10 2021 UPDATE: pages now query the sql databases instead of using the api query each time
 
 class tvPageQueries:
-
-    # store poster links for each popularity subject
-    popularTV = {}
-    topRatedTV = {}
-    trendingTodayTV = {}
-    trendingWeeklyTV = {}
-
 
     ########################################
     # Title: showAllTVPage
     #
-    # Description: Gets all the data from the API that relates to anything TV SHOWS
+    # Description: Gets all the data from the SQL DATABASE that relates to anything TV SHOWS
     #
     # Details:
     #       - TRENDING TV SHOWS TODAY GET API LINK = https://api.themoviedb.org/3/trending/tv/day?api_key=<<apikey>>
@@ -31,28 +23,37 @@ class tvPageQueries:
     #       - POPULAR TV SHOWS GET REQUEST LINK = https://api.themoviedb.org/3/tv/popular?api_key=<<apikey>>&language=en-US&page=1
     #       - TOP RATED TV SHOWS GET REQUEST LINK = https://api.themoviedb.org/3/tv/top_rated?api_key=<<apikey>>&language=en-US&page=1
     #       - returns the completed dictionaries for popularTV, topRatedTV, trendingTodayTV and trendingWeeklyTV
-    #       - this is where the site gets it local data for the titles, posters, descriptions etc for anything TV SHOW related
+    #       - this is where the site gets its local data for the titles, posters, descriptions etc for anything TV SHOW related
     #
     #########
     def showAllTVPage(self):
         
-        # api requests
-        tmdbAPI = keys()
+        # sql table names
+        popularTVTable = 'popular-TV-Shows'
+        topRatedTVTable = 'top-Rated-TV-Shows'
+        trendingTodayTVTable = 'trending-Today-TV-Shows'
+        trendingWeeklyTVTable = 'trending-Weekly-TV-Shows'
 
-        # split url links
-        trendingTVTodayLink = [tmdbAPI.getAPIUrl(), '/trending', '/tv', '/day', tmdbAPI.getAPIKey()]
-        trendingTVWeeklyLink = [tmdbAPI.getAPIUrl(), '/trending', '/tv', '/week', tmdbAPI.getAPIKey()]
-        popularTVLink = [tmdbAPI.getAPIUrl(), '/tv', '/popular', tmdbAPI.getAPIKey()]
-        topRatedTVLink = [tmdbAPI.getAPIUrl(), '/tv', '/top_rated', tmdbAPI.getAPIKey()]
+        # sql table select object
+        tableSelect = sqlSelect()
 
-        # get data from all the pages we need
-        pages = 5
-        print("########################## TV PAGE ##########################")
-        showAllTV = queryFunctionTools()
-        showAllTV.showAll(trendingTVTodayLink, self.trendingTodayTV, pages)
-        showAllTV.showAll(trendingTVWeeklyLink, self.trendingWeeklyTV, pages)
-        showAllTV.showAll(popularTVLink, self.popularTV, pages)
-        showAllTV.showAll(topRatedTVLink, self.topRatedTV, pages)
+        # select data from sql tables
+        try:
+            print("--- Loading data for tv shows page ---")
 
-        # return array of poster image urls
-        return self.trendingTodayTV, self.trendingWeeklyTV, self.popularTV, self.topRatedTV
+            self.popularTV = tableSelect.selectFromTable(popularTVTable)
+            print("Popular tv loaded!")
+
+            self.topRatedTV = tableSelect.selectFromTable(topRatedTVTable)
+            print("Top rated tv loaded!")
+
+            self.trendingTodayTV = tableSelect.selectFromTable(trendingTodayTVTable)
+            print("Trending today tv loaded!")
+
+            self.trendingWeeklyTV = tableSelect.selectFromTable(trendingWeeklyTVTable)
+            print("Trending weekly tv loaded!")
+
+            # return results
+            return self.popularTV, self.topRatedTV, self.trendingTodayTV, self.trendingWeeklyTV
+        except:
+            print("Error getting new data from the database for TV Shows")

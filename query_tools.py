@@ -3,13 +3,14 @@
 ##  Description:    Functions that extract the required data from the TMDB API
 ##  Author:         Emmanuel Ojo
 ##  Date:           December 17 2020
-##  Last Updated:   January 7 2021
+##  Last Updated:   July 10 2021
 ######################################################
 
 import requests
 import json
 from api_key import *
 
+### July 10 2021 UPDATE: Only search results use this query tool, other pages query from the databases, to be changed in the future?
 
 class queryFunctionTools:
 
